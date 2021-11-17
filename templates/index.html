@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car selling Price</title>
+    <link rel="stylesheet" href="../static/css/style.css ">
+
+
+
+
+
+    <h1><img src="https://akm-img-a-in.tosshub.com/businesstoday/images/story/202002/lamborghini_660_140220101539.jpg"
+            width="120px" style="vertical-align: middle;">Car Value Prediction <img
+            src="https://www.drivespark.com/images/2020-09/2021-rolls-royce-ghost-exterior-5.jpg" width="120px"
+            style="vertical-align: middle;">
+
+    </h1>
+
+</head>
+
+<body>
+
+
+    <div style="color:black">
+        <form action="{{ url_for('predict')}}" method="post">
+            <h2>Car selling price </h2>
+            <h3>Year</h3>
+            <input id="first" name="Year" type="number" placeholder="Enter Year">
+            <h3>Showroom price in lakh</h3>
+
+            <input id="second" name="Present_Price" type="float" placeholder="Enter price" required="required">
+            <h3>How Many Kilometers Drived?</h3><input id="third" name="Kms_Driven" required="required"
+                placeholder="Driven Kilometers">
+            <h3>How Many owner own the car (0,1 or 3)</h3><input id="fourth" name="Owner" required="required"
+                placeholder="Number of owner" type="number">
+            <h3>What is Fuel type?</h3><select name="Fuel_Type_Petrol" id="fuel" required="required">
+                <option value="Petrol">Petrol</option>
+                <option value="Diesel">Diesel</option>
+                <option value="CNG">CNG</option>
+            </select>
+            <h3>Are you A Dealer or Individual</h3><select name="Seller_Type_Individual" id="seller"
+                required="required">
+                <option value="Individual">Individual</option>
+                <option value="Dealer">Dealer</option>
+            </select>
+            <h3>Transmission type</h3><select name="Transmission_Mannual" id="Transmission" required="required">
+                <option value="Manual">Manual</option>
+                <option value="Automatic">Automatic</option>
+            </select>
+            <br><br><button id="sub" type="submit ">Calculate the Selling Price</button>
+            <br>
+
+
+
+        </form>
+
+
+        <br><br>
+        <h3>{{ prediction_text }}</h3>
+
+
+    </div>
+</body>
+<footer>
+    <h4><img src="data:image/png;base64,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"
+            alt="linkdin" style="vertical-align: middle;" height="30px"><a
+            href="https://www.linkedin.com/in/babita-pant-ba5bb1185/">linkdin</a>&copy Babita Pant <img
+            src="https://yt3.ggpht.com/oedMx_FJxHKMVrI_wxXOFB0QftqvsuFX5rqfoUqW4Sry8ej2o1ghzphPSr-fua5mnYonJZOp79I=s900-c-k-c0x00ffffff-no-rj"
+            alt="iNeuron" style="vertical-align: middle;" height="50px"> <a
+            href="https://github.com/Babitapant">github</a><img
+            src="https://e7.pngegg.com/pngimages/914/758/png-clipart-computer-icons-logo-github-github-logo-logo-computer-program-thumbnail.png"
+            alt="github" style="vertical-align: middle;" height="30px"><a href="pantbabita95@gmail.com">gmail <img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST-bBjXxar-LlGmmZbOuLO79qYVNZOCnpKsQ&usqp=CAU"
+                alt="gmail" style="vertical-align: middle;" height="30px"></a></h4>
+</footer>
+
+
+
+</html>
